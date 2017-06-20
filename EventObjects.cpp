@@ -16,8 +16,9 @@
 
 
 
-EventObjectScheduler MyEventManger;
 
+//EventObjectScheduler WsSEventManger;
+EventObjectScheduler WsSEventManger;
 //#endif
 
 
@@ -28,7 +29,7 @@ void EventSchedulersISR(void){
 	EventBaseObject theNewObject;
 	voidFunctionWithEventBaseObjectParameter theNewFunc;
 	
-	MyEventManger.MyFIFO.getNextEvent(theNewObject,theNewFunc);
+	WsSEventManger.MyFIFO.getNextEvent(theNewObject,theNewFunc);
 	theNewFunc(theNewObject);
 }
 

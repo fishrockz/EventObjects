@@ -51,4 +51,9 @@ private:
 	int RegisteredCount=0;
 	
 };
+//#if not defined( _EventManger_ )
 
+//#define _EventManger_
+//extern EventObjectScheduler WsSEventManger;
+
+//#endif

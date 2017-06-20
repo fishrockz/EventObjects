@@ -26,7 +26,7 @@ class CustomFIFO
 {
 public:
 	void addEvent(EventBaseObject NewObject,voidFunctionWithEventBaseObjectParameter useFunc);
-	EventBaseObject getNextEvent(void);
+	void getNextEvent(EventBaseObject &NewObject,voidFunctionWithEventBaseObjectParameter &useFunc);
 private:
 	EventBaseObject MyObjects[EventManger_CustomFIFO_length];
 	voidFunctionWithEventBaseObjectParameter functionsToCall[EventManger_CustomFIFO_length];
@@ -44,10 +44,11 @@ public:
 	void EventSoftISR();
 	bool Register(void (*userFunction)());
 	void trigger(EventBaseObject InfoObject,voidFunctionWithEventBaseObjectParameter useFunc);
+	CustomFIFO MyFIFO;
 private:
 	int interruptID;
 	static void (*isrCallback)();
 	int RegisteredCount=0;
-	CustomFIFO MyFIFO;
+	
 };
 

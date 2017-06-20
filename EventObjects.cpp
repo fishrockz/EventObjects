@@ -41,7 +41,7 @@ EventObjectScheduler::EventObjectScheduler(void)
 	CustomFIFO MyFIFO;
 	NVIC_ENABLE_IRQ(IRQ_SOFTWARE);
 	attachInterruptVector(IRQ_NUMBER_t(IRQ_SOFTWARE ), EventSchedulersISR);
-	
+	NVIC_SET_PRIORITY(IRQ_SOFTWARE, 150);
 }
 
 

@@ -30,7 +30,9 @@ void EventSchedulersISR(void){
 	voidFunctionWithEventBaseObjectParameter theNewFunc;
 	
 	WsSEventManger.MyFIFO.getNextEvent(theNewObject,theNewFunc);
+	Serial.println("Fire");
 	theNewFunc(theNewObject);
+	Serial.println("Sent");
 }
 
 
@@ -67,11 +69,11 @@ void CustomFIFO::addEvent(EventBaseObject NewObject,voidFunctionWithEventBaseObj
 
 
 void  CustomFIFO::getNextEvent(EventBaseObject &NewObject,voidFunctionWithEventBaseObjectParameter &useFunc){
-	EventBaseObject itemToReturn;
-	itemToReturn=MyObjects[retriveIndex];
-	
+	//EventBaseObject itemToReturn;
+	NewObject=MyObjects[retriveIndex];
+	useFunc=functionsToCall[retriveIndex];
 	retriveIndex+=1;
-	if (retriveIndex>EventManger_CustomFIFO_length){retriveIndex=0;}
+	if (retriveIndex>=EventManger_CustomFIFO_length){retriveIndex=0;}
 	//return itemToReturn;
 }
 

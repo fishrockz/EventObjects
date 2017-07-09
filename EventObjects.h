@@ -14,10 +14,11 @@
 
 class EventBaseObject
 {
-
+public:
+	virtual int testvalue(void){return 5;};
 
 };
-typedef void (*voidFunctionWithEventBaseObjectParameter) (EventBaseObject object);
+typedef void (*voidFunctionWithEventBaseObjectParameter) (EventBaseObject * object);
 
 #ifndef EventManger_CustomFIFO_length
 #define EventManger_CustomFIFO_length 10
@@ -25,10 +26,10 @@ typedef void (*voidFunctionWithEventBaseObjectParameter) (EventBaseObject object
 class CustomFIFO
 {
 public:
-	void addEvent(EventBaseObject NewObject,voidFunctionWithEventBaseObjectParameter useFunc);
-	void getNextEvent(EventBaseObject &NewObject,voidFunctionWithEventBaseObjectParameter &useFunc);
+	void addEvent(EventBaseObject * NewObject,voidFunctionWithEventBaseObjectParameter useFunc);
+	void getNextEvent(EventBaseObject ** NewObject,voidFunctionWithEventBaseObjectParameter &useFunc);
 private:
-	EventBaseObject MyObjects[EventManger_CustomFIFO_length];
+	EventBaseObject * MyObjects[EventManger_CustomFIFO_length];
 	voidFunctionWithEventBaseObjectParameter functionsToCall[EventManger_CustomFIFO_length];
 	//EventBaseObject * MyObjects[EventManger_CustomFIFO_length];
 	int addIndex=0;
@@ -43,7 +44,7 @@ public:
 	EventObjectScheduler(void);
 	void EventSoftISR();
 	bool Register(void (*userFunction)());
-	void trigger(EventBaseObject InfoObject,voidFunctionWithEventBaseObjectParameter useFunc);
+	void trigger(EventBaseObject * InfoObject,voidFunctionWithEventBaseObjectParameter useFunc);
 	CustomFIFO MyFIFO;
 private:
 	int interruptID;

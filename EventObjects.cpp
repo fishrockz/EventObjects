@@ -26,13 +26,20 @@ EventObjectScheduler WsSEventManger;
 void EventSchedulersISR(void){
 	Serial.println("EventSchedulersISR");
 	
-	EventBaseObject theNewObject;
+	EventBaseObject * theNewObject = {0};
 	voidFunctionWithEventBaseObjectParameter theNewFunc;
 	
-	WsSEventManger.MyFIFO.getNextEvent(theNewObject,theNewFunc);
+	
+	//Serial.println(	theNewObject->testvalue());
+	
+	WsSEventManger.MyFIFO.getNextEvent(&theNewObject,theNewFunc);
+	
+	Serial.println(	theNewObject->testvalue());
 	Serial.println("Fire");
+	
 	theNewFunc(theNewObject);
 	Serial.println("Sent");
+	
 }
 
 
@@ -46,7 +53,7 @@ EventObjectScheduler::EventObjectScheduler(void)
 
 
 
-void EventObjectScheduler::trigger(EventBaseObject InfoObject,voidFunctionWithEventBaseObjectParameter useFunc){
+void EventObjectScheduler::trigger(EventBaseObject * InfoObject, voidFunctionWithEventBaseObjectParameter useFunc){
 
 
 	MyFIFO.addEvent(InfoObject,useFunc);
@@ -60,20 +67,20 @@ void EventObjectScheduler::trigger(EventBaseObject InfoObject,voidFunctionWithEv
 }
 
 
-void CustomFIFO::addEvent(EventBaseObject NewObject,voidFunctionWithEventBaseObjectParameter useFunc){
+void CustomFIFO::addEvent(EventBaseObject * NewObject,voidFunctionWithEventBaseObjectParameter useFunc){
 	MyObjects[addIndex]=NewObject;
 	functionsToCall[addIndex]=useFunc;
 	addIndex+=1;
-	if (addIndex>EventManger_CustomFIFO_length){addIndex=0;}
+	if (addIndex>=EventManger_CustomFIFO_length-1){addIndex=0;}
 }
 
 
-void  CustomFIFO::getNextEvent(EventBaseObject &NewObject,voidFunctionWithEventBaseObjectParameter &useFunc){
+void  CustomFIFO::getNextEvent(EventBaseObject ** NewObject,voidFunctionWithEventBaseObjectParameter &useFunc){
 	//EventBaseObject itemToReturn;
-	NewObject=MyObjects[retriveIndex];
+	*NewObject=MyObjects[retriveIndex];
 	useFunc=functionsToCall[retriveIndex];
 	retriveIndex+=1;
-	if (retriveIndex>=EventManger_CustomFIFO_length){retriveIndex=0;}
+	if (retriveIndex>=EventManger_CustomFIFO_length-1){retriveIndex=0;}
 	//return itemToReturn;
 }
 

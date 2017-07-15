@@ -24,7 +24,7 @@ EventObjectScheduler WsSEventManger;
 
 
 void EventSchedulersISR(void){
-	Serial.println("EventSchedulersISR");
+//	Serial.println("EventSchedulersISR");
 	
 	EventBaseObject * theNewObject = {0};
 	voidFunctionWithEventBaseObjectParameter theNewFunc;
@@ -34,11 +34,11 @@ void EventSchedulersISR(void){
 	
 	WsSEventManger.MyFIFO.getNextEvent(&theNewObject,theNewFunc);
 	
-	Serial.println(	theNewObject->testvalue());
-	Serial.println("Fire");
+//	Serial.println(	theNewObject->testvalue());
+//	Serial.println("Fire");
 	
 	theNewFunc(theNewObject);
-	Serial.println("Sent");
+//	Serial.println("Sent");
 	
 }
 
